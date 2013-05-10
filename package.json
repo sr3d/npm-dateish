@@ -1,6 +1,6 @@
 {
   "name": "dateish",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
   "description": "Given a string, what are the possible date values?",
   "main": "index.js",
