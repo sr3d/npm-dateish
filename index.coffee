@@ -174,6 +174,7 @@ ParsableDate.isDayOfWeekish = (token) ->
 
 
 parse = (str) ->
+  puts str
   tokens = str.split /[^\d\w\^\:]/
   parsableDate = new ParsableDate()
   
@@ -186,7 +187,7 @@ parse = (str) ->
     token = tokens.splice(0,1)?[0]
 
     token = token.trim()
-    console.log("parsing token: %o[ ", token, "]")
+    # console.log("parsing token: %o[ ", token, "]")
 
     if ParsableDate.isDayOfWeekish token 
       parsableDate.addDayOfWeekish token 
@@ -207,6 +208,11 @@ parse = (str) ->
 
   return parsableDate.possibleDates()
 
-exports.parse = parse
+exports.parse = (str) -> 
+  return null unless str && str.split
+  date = parse str
+  date 
+
+  
 
 exports.ParsableDate = ParsableDate
