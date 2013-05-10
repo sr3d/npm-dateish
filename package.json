@@ -1,0 +1,25 @@
+{
+  "name": "dateish",
+  "version": "0.0.1",
+  "private": false,
+  "description": "Given a string, what are the possible date values?",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --compilers coffee:coffee-script --reporter spec"
+  },
+  "repository": "",
+  "keywords": [
+    "dateish"
+  ],
+
+  "dependencies": {
+    "coffee-script": "*"
+  },
+
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*"
+  },
+  "author": "Alex Le",
+  "license": "BSD"
+}
