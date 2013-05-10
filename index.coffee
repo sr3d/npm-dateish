@@ -1,4 +1,4 @@
-MONTHISH = /\bJAN|FEB|MAR|APR[IL]|MAY|JUNE?|JULY?|AUG[UST]|SEPT?|OCT|NOV|DEC|\b0?[1-9]\b|\b11\b|\b12\b/i
+MONTHISH = /\bJAN|FEB|MAR|APR[IL]?|MAY|JUNE?|JULY?|AUG[UST]|SEPT?|OCT|NOV|DEC|\b0?[1-9]\b|\b11\b|\b12\b/i
 MONTHISH_MAP = 
   1:  [/0?1/, /\bjan/]
   2:  [/0?2/, /\bfeb/]
@@ -55,7 +55,7 @@ class ParsableDate
       fullYear = true
 
     if year <= (new Date()).getFullYear()
-      log "Add yearish", year
+      # log "Add yearish", year
       @yearishes = [ year ]
 
     @yearishes
@@ -71,10 +71,10 @@ class ParsableDate
       for regexp in MONTHISH_MAP[month]
         # console.log(regexp)
         if regexp.test token
-          log "Add Monthish", token
+          # log "Add Monthish", token
           @monthishes.push +month
-          @literalMonth = /jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec/i.test token 
-          puts "@literalMonth", @literalMonth
+          @literalMonth = /jan|feb|mar|apr[il]|may|jun|jul|aug|sep|oct|nov|dec/i.test token 
+          # puts "@literalMonth", @literalMonth
           break
 
     @monthishes
@@ -87,7 +87,7 @@ class ParsableDate
 
     day = parseInt token, 10
     if 0 < day < 32
-      log "Add Dayish", token
+      # log "Add Dayish", token
       @dayishes.push day
     @dayishes
 
@@ -107,8 +107,6 @@ class ParsableDate
   possibleDates: () ->
     possibleDates = []
 
-    puts @
-
     for year in @yearishes
       if year.length == 2
         year = "20#{year}"
@@ -122,7 +120,6 @@ class ParsableDate
             dateValue = new Date dateValue
             # check with date 
             if @dayOfWeekishes.length > 0
-              # log @dayOfWeekishes.indexOf dateValue.getDay()
               if @dayOfWeekishes.indexOf dateValue.getDay() > -1
                 possibleDates.push(possibleDate)
             else
@@ -147,7 +144,7 @@ class ParsableDate
 
     unique.sort (a,b) -> b - a
 
-    puts unique
+    # puts unique
 
     unique[0]?.value
     
@@ -162,6 +159,7 @@ class ParsableDate
       return false if token.toString().length > 2
 
 ParsableDate.isMonthish = (token) ->
+  # puts MONTHISH.test token
   MONTHISH.test token
 
 ParsableDate.isDayish = (token) ->
@@ -186,8 +184,7 @@ parse = (str) ->
   while tokens.length > 0 # and not parsableDate.parsable()
     token = tokens.splice(0,1)?[0]
 
-    console.log("parsing token: %o[ ", token, "]")
-
+    # console.log("parsing token: %o[ ", token, "]")
 
     if ParsableDate.isDayOfWeekish token 
       parsableDate.addDayOfWeekish token 

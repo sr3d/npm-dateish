@@ -107,14 +107,14 @@ describe 'should parse date', ->
     assert.equal '2013-05-05', dateish.parse('Something Something Sun May 5, 2013')
 
 
-  it 'should parse a different day', ->
+  it 'should parse a different day Mon May 7, 2013', ->
     assert.equal '2013-05-07', dateish.parse('Something Something Mon May 7, 2013')
 
   it 'should parse day with time', ->
     assert.equal '2013-05-04', dateish.parse('Something Something Sat May 4, 2013 20:12PM')
 
 
-  it 'should parse string with invalid characters', ->
+  it 'should parse string with non-alphabetic characters', ->
     assert.equal '2013-05-04', dateish.parse('Something Something - May 4, 2013 20:12PM')
     
   it 'should parse string with invalid characters', ->
@@ -131,4 +131,30 @@ describe 'should parse date', ->
   it 'should parse 05/12/13 20:12PM PST', ->
     assert.equal '2013-05-12', dateish.parse('Something Something - 05/12/13 20:12PM PST blah blah blah')
 
+
+  it 'should parse May 12th, 2013 20:12PM PST', ->
+    assert.equal '2013-05-12', dateish.parse('Something Something - May 12th, 2013 20:12PM PST blah blah blah')
+
+  it 'should parse May 1st, 2013', ->
+    assert.equal '2013-05-01', dateish.parse('Something Something - May 1st, 2013 20:12PM PST blah blah blah')
+
+  it 'should parse April 1st, 2013', ->
+    assert.equal '2013-04-01', dateish.parse('Something Something - April 1st, 2013 20:12PM PST blah blah blah')
+
+  it 'should parse Apr 1st, 2013', ->
+    assert.equal '2013-04-01', dateish.parse('Something Something - Apr 1st, 2013 20:12PM PST blah blah blah')
+
+  it 'should parse Jun 2nd 2013', ->
+    assert.equal '2013-06-02', dateish.parse('Something Something - Jun 2nd 2013 20:12PM PST blah blah blah')
+
+
+
+  it 'should parse all dates', ->
+    dates =
+      "2013-06-12": [ "Jun 12th 2013", "June, 12 2013", "06/12/2013", "06.12.2013", "06/12/13" ]
+
+    for date of dates 
+      for dateString in dates[date]
+        # console.log "parsing #{dateString}"
+        assert.equal date, dateish.parse dateString
 
