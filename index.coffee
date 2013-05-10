@@ -54,7 +54,7 @@ class ParsableDate
       year = parseInt(token, 10)
       fullYear = true
 
-    if year <= (new Date()).getFullYear()
+    if 1990 <= year <= (new Date()).getFullYear()
       # log "Add yearish", year
       @yearishes = [ year ]
 
@@ -71,10 +71,10 @@ class ParsableDate
       for regexp in MONTHISH_MAP[month]
         # console.log(regexp)
         if regexp.test token
-          # log "Add Monthish", token
+          log "Add Monthish", token, "month ", month
           @monthishes.push +month
           @literalMonth = /jan|feb|mar|apr[il]|may|jun|jul|aug|sep|oct|nov|dec/i.test token 
-          # puts "@literalMonth", @literalMonth
+          puts "@literalMonth", @literalMonth
           break
 
     @monthishes
@@ -121,10 +121,11 @@ class ParsableDate
             # check with date 
             if @dayOfWeekishes.length > 0
               if @dayOfWeekishes.indexOf dateValue.getDay() > -1
-                possibleDates.push(possibleDate)
+                possibleDates.push possibleDate
             else
               possibleDates.push possibleDate
 
+    puts @
     @dedup possibleDates
 
 
@@ -175,7 +176,7 @@ ParsableDate.isDayOfWeekish = (token) ->
 parse = (str) ->
   tokens = str.split /[^\d\w\^\:]/
   parsableDate = new ParsableDate()
-  # i = 0
+  
   len = tokens.length
   
   # puts tokens
@@ -184,7 +185,8 @@ parse = (str) ->
   while tokens.length > 0 # and not parsableDate.parsable()
     token = tokens.splice(0,1)?[0]
 
-    # console.log("parsing token: %o[ ", token, "]")
+    token = token.trim()
+    console.log("parsing token: %o[ ", token, "]")
 
     if ParsableDate.isDayOfWeekish token 
       parsableDate.addDayOfWeekish token 
@@ -193,6 +195,7 @@ parse = (str) ->
       parsableDate.addYearish token 
 
     if not hasMonth and ParsableDate.isMonthish token
+      console.log("ADD MONTH #{token}")
       parsableDate.addMonthish token 
       hasMonth = true 
       continue
@@ -200,6 +203,7 @@ parse = (str) ->
     if ParsableDate.isDayish token
       parsableDate.addDayish token
       hasDay = true
+
 
   return parsableDate.possibleDates()
 

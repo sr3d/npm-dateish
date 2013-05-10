@@ -147,6 +147,9 @@ describe 'should parse date', ->
   it 'should parse Jun 2nd 2013', ->
     assert.equal '2013-06-02', dateish.parse('Something Something - Jun 2nd 2013 20:12PM PST blah blah blah')
 
+  it.only 'should parse Sunday, May 5, 2013 - 15:26', ->
+    assert.equal '2013-05-05', dateish.parse('Sunday, May 5, 2013 - 15:26')
+
 
 
   it 'should parse all dates', ->
